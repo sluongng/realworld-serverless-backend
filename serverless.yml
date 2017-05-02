@@ -1,0 +1,31 @@
+service: realworld-backend
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpackIncludeModules: true
+  stage: ${opt:stage, self:provider.stage}
+  secrets: ${file(secrets.yml}:${self:custom.stage}}
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: prod
+  region: ap-northeast-2
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb: DescribeTable
+        - dynamodb: Query
+        - dynamodb: Scan
+        - dynamodb: GetItem
+        - dynamodb: PutItem
+        - dynamodb: UpdateItem
+        - dynamodb: DeleteItem
+      Resource: "arn:aws:dynamodb:ap-northeast-2:*:*"
+
+functions:
+  hello:
+    handler: handler.hello
