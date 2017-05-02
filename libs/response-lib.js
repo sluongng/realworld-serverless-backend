@@ -10,6 +10,14 @@ export function failure(body) {
   return buildResponse(500, body);
 }
 
+export function validationError(err) {
+  return buildResponse(
+    422,
+    {errors: err}
+  );
+
+}
+
 function buildResponse(statusCode, body) {
   return {
     statusCode: statusCode,

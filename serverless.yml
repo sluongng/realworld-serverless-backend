@@ -27,5 +27,9 @@ provider:
       Resource: "arn:aws:dynamodb:ap-northeast-2:*:*"
 
 functions:
-  hello:
-    handler: handler.hello
+  register:
+    handler: Auth.createUser
+    events:
+      - http:
+          path: api/users
+          method: post
